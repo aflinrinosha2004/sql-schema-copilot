@@ -4,6 +4,14 @@
   "description": "It explains your SQL file.",
   "version": "0.1.0",
   "publisher": "sqlschema",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aflinrinosha2004/sql-schema-copilot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aflinrinosha2004/sql-schema-copilot/issues"
+  },
+  "homepage": "https://github.com/aflinrinosha2004/sql-schema-copilot#readme",
   "icon": "icon.png",
   "galleryBanner": {
     "color": "#14324D",
@@ -17,7 +25,6 @@
   ],
   "main": "./out/extension.js",
   "activationEvents": [
-    "onCommand:sql-file-explainer.explainSchemaFile",
     "onLanguage:sql",
     "onStartupFinished"
   ],
@@ -123,6 +130,6 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",
     "node-sql-parser": "^5.1.2",
-    "zod": "^3.23.8"
+    "zod": "^4.5.4"
   }
 }

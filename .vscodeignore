@@ -11,3 +11,8 @@ out/test/**
 !CHANGELOG.md
 **/*.png
 !icon.png
+.gitignore
+esbuild.js
+tsconfig.json
+package-lock.json
+*.vsix
