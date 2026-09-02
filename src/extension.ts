@@ -32,10 +32,10 @@ async function createLlmProvider(
   const providerChoice = config.get<string>('provider', 'local');
 
   if (providerChoice === 'cloud') {
-    const apiKey = await secrets.get('sqlSchemaCopilot.cloudApiKey');
+    const apiKey = await secrets.get('sqlFileExplainer.cloudApiKey');
     if (!apiKey) {
       vscode.window.showWarningMessage(
-        'SQL Schema Copilot: cloud provider selected but no API key is set. Run "Set Cloud API Key" first. Falling back to local.'
+        'SQL File Explainer: cloud provider selected but no API key is set. Run "Set Cloud API Key" first. Falling back to local.'
       );
     } else {
       const kind = config.get<CloudProviderKind>('cloudProviderKind', 'anthropic');
@@ -46,7 +46,7 @@ async function createLlmProvider(
   return new OllamaProvider();
 }
 
-export class SqlSchemaCopilotExtension {
+export class SqlFileExplainerExtension {
   private engine: SchemaEngine;
   private readonly watchedFiles = new Set<string>();
   private watcher?: vscode.FileSystemWatcher;
@@ -62,7 +62,7 @@ export class SqlSchemaCopilotExtension {
     this.watcher.onDidChange((uri) => void this.handleFileChanged(uri));
     this.watcher.onDidDelete((uri) => void this.handleFileDeleted(uri));
 
-    const config = vscode.workspace.getConfiguration('sqlSchemaCopilot');
+    const config = vscode.workspace.getConfiguration('sqlFileExplainer');
     const schemaFolderPath = config.get<string>('schemaFolderPath', 'schema');
 
     for (const folder of vscode.workspace.workspaceFolders ?? []) {
@@ -71,13 +71,13 @@ export class SqlSchemaCopilotExtension {
       });
     }
 
-    void context.secrets.get('sqlSchemaCopilot.cloudApiKey').then((secret) => {
+    void context.secrets.get('sqlFileExplainer.cloudApiKey').then((secret) => {
       if (secret) {
-        void vscode.window.setStatusBarMessage('SQL Schema Copilot: cloud key configured', 2000);
+        void vscode.window.setStatusBarMessage('SQL File Explainer: cloud key configured', 2000);
       }
     });
 
-    const explainCommand = vscode.commands.registerCommand('sql-schema-copilot.explainSchemaFile', async (uri?: vscode.Uri) => {
+    const explainCommand = vscode.commands.registerCommand('sql-file-explainer.explainSchemaFile', async (uri?: vscode.Uri) => {
       const targetUri = uri ?? vscode.window.activeTextEditor?.document.uri;
       if (!targetUri || !targetUri.fsPath.endsWith('.sql')) {
         vscode.window.showWarningMessage('Select a .sql file to explain.');
@@ -100,7 +100,7 @@ export class SqlSchemaCopilotExtension {
       ].join('\n'));
     });
 
-    const setCloudApiKeyCommand = vscode.commands.registerCommand('sql-schema-copilot.setCloudApiKey', async () => {
+    const setCloudApiKeyCommand = vscode.commands.registerCommand('sql-file-explainer.setCloudApiKey', async () => {
       const key = await vscode.window.showInputBox({
         prompt: 'Enter your cloud API key',
         password: true,
@@ -111,7 +111,7 @@ export class SqlSchemaCopilotExtension {
         return;
       }
 
-      await context.secrets.store('sqlSchemaCopilot.cloudApiKey', key);
+      await context.secrets.store('sqlFileExplainer.cloudApiKey', key);
       vscode.window.showInformationMessage('Cloud API key stored securely in VS Code SecretStorage.');
     });
 
@@ -163,7 +163,7 @@ export class SqlSchemaCopilotExtension {
 }
 
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
-  const config = vscode.workspace.getConfiguration('sqlSchemaCopilot');
+  const config = vscode.workspace.getConfiguration('sqlFileExplainer');
   const embeddingProvider = createEmbeddingProvider(config);
   const llmProvider = await createLlmProvider(config, context.secrets);
 
@@ -173,7 +173,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     cacheDir: `${context.storageUri?.fsPath ?? context.globalStorageUri.fsPath}/sql-assistant-cache`
   });
 
-  const extension = new SqlSchemaCopilotExtension(engine);
+  const extension = new SqlFileExplainerExtension(engine);
   extension.activate(context);
   context.subscriptions.push({ dispose: () => extension.deactivate() });
 }

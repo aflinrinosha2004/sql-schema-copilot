@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 - Added unit tests for every new engine module, runnable without the VS Code test host.
 - Introduced "Schema", the named persona behind the `@sqlschema` chat participant, with a shared persona preamble used in every grounded prompt, a warmer greeting, and follow-up suggestions.
 - Rewrote README.md with a full flow: About, Why This Extension, Meet Schema, Features, Installation, Usage, Commands, Settings, How It Works, MCP Server, Build From Source, Contributing, Roadmap, License, Acknowledgments, and Contact Us.
+- Renamed the extension to **SQL File Explainer** (from "SQL Schema Copilot") and the chat persona to **Schemer** (from "Schema"). Updated every command ID (`sql-file-explainer.*`), the settings namespace (`sqlFileExplainer.*`), and the chat participant invocation (`@schemer`, was `@sqlschema`) to match.
 
 ## [0.1.0] - 2026-09-02
 

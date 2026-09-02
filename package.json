@@ -1,7 +1,7 @@
 {
-  "name": "sql-schema-copilot",
-  "displayName": "SQL Schema Copilot",
-  "description": "Local SQL schema and migration assistant for VS Code.",
+  "name": "sql-file-explainer",
+  "displayName": "SQL File Explainer",
+  "description": "It explains your SQL file.",
   "version": "0.1.0",
   "publisher": "sqlschema",
   "engines": {
@@ -12,33 +12,33 @@
   ],
   "main": "./out/extension.js",
   "activationEvents": [
-    "onCommand:sql-schema-copilot.explainSchemaFile",
+    "onCommand:sql-file-explainer.explainSchemaFile",
     "onLanguage:sql",
     "onStartupFinished"
   ],
   "contributes": {
     "commands": [
       {
-        "command": "sql-schema-copilot.explainSchemaFile",
-        "title": "Explain this schema file",
-        "category": "SQL Schema Copilot"
+        "command": "sql-file-explainer.explainSchemaFile",
+        "title": "Explain this SQL file",
+        "category": "SQL File Explainer"
       },
       {
-        "command": "sql-schema-copilot.setCloudApiKey",
+        "command": "sql-file-explainer.setCloudApiKey",
         "title": "Set Cloud API Key",
-        "category": "SQL Schema Copilot"
+        "category": "SQL File Explainer"
       }
     ],
     "menus": {
       "commandPalette": [
         {
-          "command": "sql-schema-copilot.explainSchemaFile",
+          "command": "sql-file-explainer.explainSchemaFile",
           "when": "resourceExtname == .sql"
         }
       ],
       "explorer/context": [
         {
-          "command": "sql-schema-copilot.explainSchemaFile",
+          "command": "sql-file-explainer.explainSchemaFile",
           "when": "resourceExtname == .sql",
           "group": "navigation"
         }
@@ -46,26 +46,26 @@
     },
     "chatParticipants": [
       {
-        "id": "sql-schema-copilot.sqlschema",
-        "name": "sqlschema",
-        "fullName": "Schema (SQL Schema Copilot)",
-        "description": "Ask Schema about your local SQL tables, columns, and migrations - grounded only in your files, never a live database.",
+        "id": "sql-file-explainer.schemer",
+        "name": "schemer",
+        "fullName": "Schemer",
+        "description": "Ask Schemer to explain your SQL file - grounded only in your files, never a live database.",
         "isSticky": true
       }
     ],
     "configuration": {
-      "title": "SQL Schema Copilot",
+      "title": "SQL File Explainer",
       "properties": {
-        "sqlSchemaCopilot.provider": {
+        "sqlFileExplainer.provider": {
           "type": "string",
           "enum": [
             "local",
             "cloud"
           ],
           "default": "local",
-          "description": "Choose the LLM provider for schema explanations: a local Ollama instance, or a cloud model using your own API key."
+          "description": "Choose the LLM provider for SQL file explanations: a local Ollama instance, or a cloud model using your own API key."
         },
-        "sqlSchemaCopilot.cloudProviderKind": {
+        "sqlFileExplainer.cloudProviderKind": {
           "type": "string",
           "enum": [
             "anthropic",
@@ -74,7 +74,7 @@
           "default": "anthropic",
           "description": "Which cloud provider to use when \"provider\" is set to \"cloud\"."
         },
-        "sqlSchemaCopilot.embeddingProvider": {
+        "sqlFileExplainer.embeddingProvider": {
           "type": "string",
           "enum": [
             "hashing",
@@ -83,12 +83,12 @@
           "default": "hashing",
           "description": "Embedding method for local retrieval. \"hashing\" needs no extra install. \"transformers-js\" gives richer semantic search but requires running: npm install @xenova/transformers."
         },
-        "sqlSchemaCopilot.schemaFolderPath": {
+        "sqlFileExplainer.schemaFolderPath": {
           "type": "string",
           "default": "schema",
-          "description": "Relative path to the folder containing schema files (for example: schema or schema/migration)."
+          "description": "Relative path to the folder containing SQL files (for example: schema or schema/migration)."
         },
-        "sqlSchemaCopilot.cloudApiKey": {
+        "sqlFileExplainer.cloudApiKey": {
           "type": "string",
           "default": "",
           "description": "Stored securely in SecretStorage. Do not edit this value in settings.json.",

@@ -6,7 +6,7 @@ import * as vscode from 'vscode';
 import { findSchemaFiles, watchSchemaFiles } from '../../schema/schemaWatcher';
 
 describe('Schema file watcher', () => {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'sql-schema-copilot-'));
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'sql-file-explainer-'));
 
   before(async () => {
     const schemaDir = path.join(tempRoot, 'schema', 'migration');
@@ -16,7 +16,7 @@ describe('Schema file watcher', () => {
     const workspaceFolder = vscode.Uri.file(tempRoot);
     const currentFolders = vscode.workspace.workspaceFolders ?? [];
     if (currentFolders.length === 0) {
-      const added = vscode.workspace.updateWorkspaceFolders(0, 0, { uri: workspaceFolder, name: 'sql-schema-copilot-test' });
+      const added = vscode.workspace.updateWorkspaceFolders(0, 0, { uri: workspaceFolder, name: 'sql-file-explainer-test' });
       assert.strictEqual(added, true, 'expected workspace folder to be added');
     }
   });

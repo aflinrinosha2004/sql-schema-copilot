@@ -63,7 +63,7 @@ async function main(): Promise<void> {
 
   await engine.indexSchema(loadSchemaFromFolder(schemaFolder));
 
-  const server = new McpServer({ name: 'sql-schema-copilot', version: '0.1.0' });
+  const server = new McpServer({ name: 'sql-file-explainer', version: '0.1.0' });
 
   server.registerTool(
     'askQuestion',
@@ -94,6 +94,6 @@ async function main(): Promise<void> {
 }
 
 main().catch((error) => {
-  console.error('Failed to start SQL Schema Copilot MCP server:', error);
+  console.error('Failed to start SQL File Explainer MCP server:', error);
   process.exit(1);
 });

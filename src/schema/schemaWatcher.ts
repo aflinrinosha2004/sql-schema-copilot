@@ -68,7 +68,7 @@ export function watchSchemaFiles(): vscode.FileSystemWatcher {
     return new FallbackFileSystemWatcher();
   }
 
-  const configPath = vscode.workspace.getConfiguration('sqlSchemaCopilot').get<string>('schemaFolderPath', 'schema');
+  const configPath = vscode.workspace.getConfiguration('sqlFileExplainer').get<string>('schemaFolderPath', 'schema');
   const globPattern = new vscode.RelativePattern(workspaceFolder, `${configPath}/**/*.sql`);
   return vscode.workspace.createFileSystemWatcher(globPattern);
 }

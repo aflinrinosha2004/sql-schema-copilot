@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { SchemaEngine } from '../engine/schemaEngine';
 import { PERSONA_NAME, GREETING } from '../engine/persona';
 
-export const CHAT_PARTICIPANT_ID = 'sql-schema-copilot.sqlschema';
+export const CHAT_PARTICIPANT_ID = 'sql-file-explainer.schemer';
 
 export function registerChatParticipant(
   context: vscode.ExtensionContext,

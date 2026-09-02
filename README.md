@@ -1,7 +1,7 @@
-<h1 align="center">SQL Schema Copilot</h1>
+<h1 align="center">SQL File Explainer</h1>
 
 <p align="center">
-  <em>Ask your schema, not your data. <strong>No live database, no network by default, no data leaves your machine.</strong></em>
+  <em>It explains your SQL file. <strong>No live database, no API key required, no network by default.</strong></em>
 </p>
 
 <p align="center">
@@ -14,18 +14,17 @@
   <a href="#contributing">
     <img src="https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square" alt="PRs Welcome">
   </a>
-  <a href="#-mcp-server">
+  <a href="#mcp-server">
     <img src="https://img.shields.io/badge/MCP-server%20included-blueviolet?style=flat-square" alt="MCP server included">
   </a>
 </p>
 
 ---
 
-A Visual Studio Code extension that lets you ask questions about your SQL schema and migration
-files directly inside the editor — as a chat participant, a right-click command, or a standalone
-MCP server for other AI tools. It reads only the `.sql` files already in your workspace: **no live
-database connection, no credentials, and no schema data leaves your machine unless you explicitly
-turn on a cloud model.**
+A Visual Studio Code extension that explains your SQL schema and migration files directly inside
+the editor — as a chat participant, a right-click command, or a standalone MCP server for other AI
+tools. It reads only the `.sql` files already in your workspace: **no live database connection, no
+credentials, and no schema data leaves your machine unless you explicitly turn on a cloud model.**
 
 ---
 
@@ -33,7 +32,7 @@ turn on a cloud model.**
 
 - [About](#about)
 - [Why This Extension](#why-this-extension)
-- [Meet Schema](#meet-schema)
+- [Meet Schemer](#meet-schemer)
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -52,14 +51,12 @@ turn on a cloud model.**
 
 ## About
 
-You open a codebase you didn't build, or a migration someone else wrote, and you need to know:
-what does this table connect to, what does this column mean, what breaks if I change it. SQL
-Schema Copilot answers that from the `.sql` files already in your workspace — no need to spin up
-the database, request credentials, or wait for whoever wrote the migration to explain it.
+You open a schema you didn't design, or a migration someone else wrote, and you need to know what
+it does. Ask, and get an answer grounded in the actual `.sql` files in your workspace — no need to
+spin up the database, request credentials, or wait for whoever wrote the migration to explain it.
 
-It watches your schema folder, chunks every table into retrievable context, embeds that context
-locally, and answers questions grounded in exactly what your files say — nothing invented, nothing
-fetched from a live connection.
+No database connection. No credentials. Nothing invented — if it's not in your schema, the answer
+says so instead of guessing.
 
 ---
 
@@ -73,30 +70,30 @@ like Vanna.ai already do live-database Q&A well.
 What none of them cover is the narrower, file-only case: understanding **structure**, not data,
 with no live connection at all.
 
-| Need | Live-DB chat tools | SQL Schema Copilot |
+| Need | Live-DB chat tools | SQL File Explainer |
 | :--- | :---: | :---: |
 | Onboard onto a schema you didn't design | Requires DB credentials | Reads the `.sql` files only |
-| Review a migration before merging it | Not their focus | `Explain this schema file`, migration diff |
+| Review a migration before merging it | Not their focus | `Explain this SQL file`, migration diff |
 | Generate types/ORM models from schema | Not their focus | Built in |
 | Works with no database running | No | Yes |
 | Schema/data ever leaves your machine | Depends on the tool | Never, unless you opt into a cloud key |
 
 > **This isn't a smaller version of a live-database chatbot. It solves a task those tools don't
-> attempt: understanding schema from files alone.**
+> attempt: explaining a schema from files alone.**
 
 ---
 
-## Meet Schema
+## Meet Schemer
 
-Every answer inside VS Code comes from **Schema** — the persona behind the `@sqlschema` chat
-participant. Schema has one job and stays honest about its limits:
+Every answer inside VS Code comes from **Schemer** — the persona behind the `@schemer` chat
+participant. Schemer has one job and stays honest about its limits:
 
 - Answers **only** from the `.sql` files it has indexed — never a live database, never invented columns
 - Always names the specific table(s) or column(s) an answer is about, and cites the source file and line
 - Says "that's not in your schema" instead of guessing when the context doesn't contain the answer
 - Keeps answers short — you're mid-task in an editor, not reading a report
 
-Say hello with `@sqlschema` in Copilot Chat and ask anything about your indexed schema.
+Say hello with `@schemer` in Copilot Chat and ask anything about your indexed schema.
 
 ---
 
@@ -111,8 +108,8 @@ Say hello with `@sqlschema` in Copilot Chat and ask anything about your indexed 
 - Incremental re-indexing on file create, change, and delete
 
 ### Chat, Commands & Settings
-- `@sqlschema` chat participant inside Copilot Chat, with follow-up suggestions
-- Right-click **Explain this schema file** on any `.sql` file
+- `@schemer` chat participant inside Copilot Chat, with follow-up suggestions
+- Right-click **Explain this SQL file** on any `.sql` file
 - Settings for provider, cloud provider kind, embedding method, and schema folder path
 - Cloud API keys stored via VS Code SecretStorage — never in `settings.json`
 
@@ -131,14 +128,14 @@ Say hello with `@sqlschema` in Copilot Chat and ask anything about your indexed 
 
 ## Installation
 
-SQL Schema Copilot is not yet published to the VS Code Marketplace. Until then, install it from
+SQL File Explainer is not yet published to the VS Code Marketplace. Until then, install it from
 source or from a packaged `.vsix`.
 
 ### From a `.vsix` file
 
 ```bash
 # Build the .vsix yourself (see Build From Source), then:
-code --install-extension sql-schema-copilot-0.1.0.vsix
+code --install-extension sql-file-explainer-0.1.0.vsix
 ```
 
 ### From source (Extension Development Host)
@@ -155,19 +152,19 @@ npm run compile
 
 ## Usage
 
-1. Open a workspace that has a `schema` folder (or set `sqlSchemaCopilot.schemaFolderPath`)
+1. Open a workspace that has a `schema` folder (or set `sqlFileExplainer.schemaFolderPath`)
    containing `.sql` files
-2. Open Copilot Chat and type `@sqlschema explain the orders table`
-3. Or right-click any `.sql` file → **Explain this schema file**
-4. Keep asking — Schema re-indexes automatically whenever a schema file changes
+2. Open Copilot Chat and type `@schemer explain the orders table`
+3. Or right-click any `.sql` file → **Explain this SQL file**
+4. Keep asking — Schemer re-indexes automatically whenever a schema file changes
 
 By default, answers are generated by a local Ollama instance. To use a cloud model instead:
 
 ```bash
-Ctrl+Shift+P → SQL Schema Copilot: Set Cloud API Key
+Ctrl+Shift+P → SQL File Explainer: Set Cloud API Key
 ```
 
-then set `sqlSchemaCopilot.provider` to `cloud` and `sqlSchemaCopilot.cloudProviderKind` to
+then set `sqlFileExplainer.provider` to `cloud` and `sqlFileExplainer.cloudProviderKind` to
 `anthropic` or `openai`.
 
 ---
@@ -176,9 +173,9 @@ then set `sqlSchemaCopilot.provider` to `cloud` and `sqlSchemaCopilot.cloudProvi
 
 | Command | What it does |
 | :--- | :--- |
-| `SQL Schema Copilot: Explain this schema file` | Summarizes and explains the table(s) in the selected `.sql` file |
-| `SQL Schema Copilot: Set Cloud API Key` | Stores a cloud provider API key securely in SecretStorage |
-| `@sqlschema <question>` | Ask Schema anything about your indexed tables, in Copilot Chat |
+| `SQL File Explainer: Explain this SQL file` | Summarizes and explains the table(s) in the selected `.sql` file |
+| `SQL File Explainer: Set Cloud API Key` | Stores a cloud provider API key securely in SecretStorage |
+| `@schemer <question>` | Ask Schemer anything about your indexed tables, in Copilot Chat |
 
 ---
 
@@ -186,11 +183,11 @@ then set `sqlSchemaCopilot.provider` to `cloud` and `sqlSchemaCopilot.cloudProvi
 
 | Setting | Default | Description |
 | :--- | :--- | :--- |
-| `sqlSchemaCopilot.provider` | `local` | `local` (Ollama) or `cloud` (bring-your-own-key) |
-| `sqlSchemaCopilot.cloudProviderKind` | `anthropic` | `anthropic` or `openai`, used when `provider` is `cloud` |
-| `sqlSchemaCopilot.embeddingProvider` | `hashing` | `hashing` (default, no extra install) or `transformers-js` (richer, requires `npm install @xenova/transformers`) |
-| `sqlSchemaCopilot.schemaFolderPath` | `schema` | Relative path to the folder containing schema files |
-| `sqlSchemaCopilot.cloudApiKey` | *(empty)* | Stored via SecretStorage. Do not edit this in `settings.json` |
+| `sqlFileExplainer.provider` | `local` | `local` (Ollama) or `cloud` (bring-your-own-key) |
+| `sqlFileExplainer.cloudProviderKind` | `anthropic` | `anthropic` or `openai`, used when `provider` is `cloud` |
+| `sqlFileExplainer.embeddingProvider` | `hashing` | `hashing` (default, no extra install) or `transformers-js` (richer, requires `npm install @xenova/transformers`) |
+| `sqlFileExplainer.schemaFolderPath` | `schema` | Relative path to the folder containing SQL files |
+| `sqlFileExplainer.cloudApiKey` | *(empty)* | Stored via SecretStorage. Do not edit this in `settings.json` |
 
 ---
 
@@ -205,7 +202,7 @@ then set `sqlSchemaCopilot.provider` to `cloud` and `sqlSchemaCopilot.cloudProvi
   ├─▶ 4. EMBED     local embedding (hashing, or transformers.js if enabled)
   ├─▶ 5. INDEX     local vector store, cached to disk, updated incrementally
   ├─▶ 6. RETRIEVE  question → embedding → top-k matching chunks
-  ├─▶ 7. GROUND    chunks + question → a prompt Schema can only answer from
+  ├─▶ 7. GROUND    chunks + question → a prompt Schemer can only answer from
   └─▶ 8. ANSWER    local Ollama or your own cloud key, streamed into chat
 ```
 
@@ -283,7 +280,7 @@ more engine test coverage.
 
 - [ ] Additional SQL dialect support (MySQL, SQLite, SQL Server syntax variants)
 - [ ] Multi-file relationship graph rendered visually in a webview
-- [ ] Chat commands for migration diff and type generation directly from `@sqlschema`
+- [ ] Chat commands for migration diff and type generation directly from `@schemer`
 - [ ] VS Code Marketplace publish
 
 Have a request? [Open an issue](https://github.com/aflinrinosha2004/sql-schema-copilot/issues).
@@ -304,7 +301,7 @@ Built with these open-source projects:
 - [node-sql-parser](https://github.com/taozhi8833998/node-sql-parser) — parses SQL DDL into a structured AST
 - [Model Context Protocol SDK](https://github.com/modelcontextprotocol/typescript-sdk) — powers the standalone MCP server
 - [esbuild](https://github.com/evanw/esbuild) — bundles the extension, tests, and MCP server
-- [VS Code Extension API](https://code.visualstudio.com/api) — the Chat Participant API that gives Schema a home in Copilot Chat
+- [VS Code Extension API](https://code.visualstudio.com/api) — the Chat Participant API that gives Schemer a home in Copilot Chat
 
 ---
 
@@ -313,7 +310,7 @@ Built with these open-source projects:
 If you have any questions, feedback, or suggestions, feel free to reach out to the authors:
 
 * **Aflin Rinosha S**: I will let you know soon
-* **Anand Sundaramoorthy SA**: [sanand03072005@gmail.com](mailto:sanand03072005@gmail.com?subject=Question%20about%20SQL%20Schema%20Copilot&body=Dear%20Authors%2C%0A%0AI%20have%20a%20question%20regarding%20the%20SQL%20Schema%20Copilot%20VS%20Code%20extension%2E%0A%0A%5BYour%20Question%20Here%5D%0A%0AThank%20you%21%0A%5BYour%20Name%5D)
+* **Anand Sundaramoorthy SA**: [sanand03072005@gmail.com](mailto:sanand03072005@gmail.com?subject=Question%20about%20SQL%20File%20Explainer&body=Dear%20Authors%2C%0A%0AI%20have%20a%20question%20regarding%20the%20SQL%20File%20Explainer%20VS%20Code%20extension%2E%0A%0A%5BYour%20Question%20Here%5D%0A%0AThank%20you%21%0A%5BYour%20Name%5D)
 
 ---
 
