@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 - Fixed `tsconfig.json`: removed the dead `esbuild.js` entry from `include` (it was silently skipped without `allowJs`), set `rootDir` to `src` to match the actual source layout, and added `noEmit: true` so a plain `tsc -p .` can no longer write a mismatched `out/src/**` tree alongside esbuild's real output.
 - Added Aflin Rinosha S's contact email to the Contact Us section, using the same clickable mailto template as the other author.
 - Redesigned icon.png: a database cylinder (one band highlighted) as the primary shape, with a small robot-face badge docked at the bottom-right corner to represent the chat/bot side more literally.
+- Fixed CI, which had been failing on every push since the initial commit: the "Missing X server or $DISPLAY" error is fixed by running the test step under `xvfb-run -a` (the VS Code test host is Electron-based and needs a display even headless). Also fixed a real, flaky test underneath that failure: the workspace-folder fixture is now created and opened as a launch argument in `runTest.ts` instead of being added at runtime via the asynchronous, racy `updateWorkspaceFolders`.
 
 ## [0.1.0] - 2026-09-02
 

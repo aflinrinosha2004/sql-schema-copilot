@@ -1,25 +1,11 @@
 import * as assert from 'assert';
-import * as fs from 'fs';
-import * as os from 'os';
-import * as path from 'path';
 import * as vscode from 'vscode';
 import { findSchemaFiles, watchSchemaFiles } from '../../schema/schemaWatcher';
 
 describe('Schema file watcher', () => {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'sql-file-explainer-'));
-
-  before(async () => {
-    const schemaDir = path.join(tempRoot, 'schema', 'migration');
-    fs.mkdirSync(schemaDir, { recursive: true });
-    fs.writeFileSync(path.join(schemaDir, 'users.sql'), 'CREATE TABLE users (id INT);');
-
-    const workspaceFolder = vscode.Uri.file(tempRoot);
-    const currentFolders = vscode.workspace.workspaceFolders ?? [];
-    if (currentFolders.length === 0) {
-      const added = vscode.workspace.updateWorkspaceFolders(0, 0, { uri: workspaceFolder, name: 'sql-file-explainer-test' });
-      assert.strictEqual(added, true, 'expected workspace folder to be added');
-    }
-  });
+  // The test workspace (with schema/migration/users.sql already in it) is
+  // created and opened as a launch argument by runTest.ts, so it is already
+  // available here - no need to add it at runtime.
 
   it('finds sql files under schema folders', async () => {
     const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
