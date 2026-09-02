@@ -5,10 +5,18 @@ const isProduction = process.argv.includes('--production');
 
 const entryPoints = {
   extension: 'src/extension.ts',
+  'mcp/server': 'src/mcp/server.ts',
   'test/runTest': 'src/test/runTest.ts',
   'test/suite/index': 'src/test/suite/index.ts',
   'test/suite/watcher.test': 'src/test/suite/watcher.test.ts',
-  'test/suite/parser.test': 'src/test/suite/parser.test.ts'
+  'test/suite/parser.test': 'src/test/suite/parser.test.ts',
+  'test/suite/chunking.test': 'src/test/suite/chunking.test.ts',
+  'test/suite/hashingEmbeddingProvider.test': 'src/test/suite/hashingEmbeddingProvider.test.ts',
+  'test/suite/vectorStore.test': 'src/test/suite/vectorStore.test.ts',
+  'test/suite/migrationDiff.test': 'src/test/suite/migrationDiff.test.ts',
+  'test/suite/typegen.test': 'src/test/suite/typegen.test.ts',
+  'test/suite/relationshipGraph.test': 'src/test/suite/relationshipGraph.test.ts',
+  'test/suite/schemaEngine.test': 'src/test/suite/schemaEngine.test.ts'
 };
 
 const buildOptions = {
@@ -20,7 +28,7 @@ const buildOptions = {
   sourcemap: !isProduction,
   minify: isProduction,
   outdir: 'out',
-  external: ['vscode']
+  external: ['vscode', '@xenova/transformers']
 };
 
 async function build() {

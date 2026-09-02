@@ -1,11 +1,14 @@
 import * as vscode from 'vscode';
 import { findSchemaFiles, watchSchemaFiles } from './schema/schemaWatcher';
-import { parseSchemaSql } from './sql/parser';
-
-export interface SchemaEngine {
-  explainFile(uri: string): Promise<string>;
-  askQuestion(question: string): Promise<string>;
-}
+import { parseSchemaSql, ParsedSchema } from './sql/parser';
+import { RealSchemaEngine, SchemaEngine } from './engine/schemaEngine';
+import { EmbeddingProvider } from './engine/embeddings/embeddingProvider';
+import { HashingEmbeddingProvider } from './engine/embeddings/hashingEmbeddingProvider';
+import { TransformersEmbeddingProvider } from './engine/embeddings/transformersEmbeddingProvider';
+import { LlmProvider } from './engine/llm/llmProvider';
+import { OllamaProvider } from './engine/llm/ollamaProvider';
+import { createByokProvider, CloudProviderKind } from './engine/llm/byokProvider';
+import { registerChatParticipant } from './chat/chatParticipant';
 
 class PlaceholderSchemaEngine implements SchemaEngine {
   async explainFile(uri: string): Promise<string> {
@@ -15,6 +18,32 @@ class PlaceholderSchemaEngine implements SchemaEngine {
   async askQuestion(question: string): Promise<string> {
     return `Question received: ${question}`;
   }
+}
+
+function createEmbeddingProvider(config: vscode.WorkspaceConfiguration): EmbeddingProvider {
+  const choice = config.get<string>('embeddingProvider', 'hashing');
+  return choice === 'transformers-js' ? new TransformersEmbeddingProvider() : new HashingEmbeddingProvider();
+}
+
+async function createLlmProvider(
+  config: vscode.WorkspaceConfiguration,
+  secrets: vscode.SecretStorage
+): Promise<LlmProvider> {
+  const providerChoice = config.get<string>('provider', 'local');
+
+  if (providerChoice === 'cloud') {
+    const apiKey = await secrets.get('sqlSchemaCopilot.cloudApiKey');
+    if (!apiKey) {
+      vscode.window.showWarningMessage(
+        'SQL Schema Copilot: cloud provider selected but no API key is set. Run "Set Cloud API Key" first. Falling back to local.'
+      );
+    } else {
+      const kind = config.get<CloudProviderKind>('cloudProviderKind', 'anthropic');
+      return createByokProvider(kind, apiKey);
+    }
+  }
+
+  return new OllamaProvider();
 }
 
 export class SqlSchemaCopilotExtension {
@@ -29,9 +58,9 @@ export class SqlSchemaCopilotExtension {
   public activate(context: vscode.ExtensionContext): void {
     this.watcher = watchSchemaFiles();
 
-    this.watcher.onDidCreate((uri) => this.registerSchemaFile(uri));
-    this.watcher.onDidChange((uri) => this.registerSchemaFile(uri));
-    this.watcher.onDidDelete((uri) => this.watchedFiles.delete(uri.fsPath));
+    this.watcher.onDidCreate((uri) => void this.handleFileChanged(uri));
+    this.watcher.onDidChange((uri) => void this.handleFileChanged(uri));
+    this.watcher.onDidDelete((uri) => void this.handleFileDeleted(uri));
 
     const config = vscode.workspace.getConfiguration('sqlSchemaCopilot');
     const schemaFolderPath = config.get<string>('schemaFolderPath', 'schema');
@@ -58,7 +87,9 @@ export class SqlSchemaCopilotExtension {
       const content = await vscode.workspace.fs.readFile(targetUri);
       const text = Buffer.from(content).toString('utf8');
       const parsed = parseSchemaSql(text, targetUri.fsPath, 1);
-      const explanation = await this.engine.explainFile(targetUri.toString());
+      await this.engine_reindexFile(parsed, targetUri.fsPath);
+
+      const explanation = await this.engine.explainFile(targetUri.fsPath);
       const tableSummary = parsed.tables.map((table) => `- ${table.name}: ${table.columns.length} columns`).join('\n');
 
       vscode.window.showInformationMessage([
@@ -85,6 +116,8 @@ export class SqlSchemaCopilotExtension {
     });
 
     context.subscriptions.push(explainCommand, setCloudApiKeyCommand, this.watcher);
+
+    registerChatParticipant(context, () => this.engine);
   }
 
   public setEngine(engine: SchemaEngine): void {
@@ -97,15 +130,50 @@ export class SqlSchemaCopilotExtension {
 
   private registerSchemaFile(uri: vscode.Uri): void {
     this.watchedFiles.add(uri.fsPath);
+    void this.handleFileChanged(uri);
   }
 
   public getWatchedFiles(): string[] {
     return Array.from(this.watchedFiles);
   }
+
+  private async handleFileChanged(uri: vscode.Uri): Promise<void> {
+    this.watchedFiles.add(uri.fsPath);
+    try {
+      const content = await vscode.workspace.fs.readFile(uri);
+      const text = Buffer.from(content).toString('utf8');
+      const parsed = parseSchemaSql(text, uri.fsPath, 1);
+      await this.engine_reindexFile(parsed, uri.fsPath);
+    } catch {
+      // Ignore transient read/parse errors (e.g. file mid-write); the next
+      // save event will retry.
+    }
+  }
+
+  private async handleFileDeleted(uri: vscode.Uri): Promise<void> {
+    this.watchedFiles.delete(uri.fsPath);
+    await this.engine_reindexFile({ tables: [] }, uri.fsPath);
+  }
+
+  private async engine_reindexFile(parsed: ParsedSchema, sourceFile: string): Promise<void> {
+    if (this.engine instanceof RealSchemaEngine) {
+      await this.engine.reindexFile(parsed, sourceFile);
+    }
+  }
 }
 
-export function activate(context: vscode.ExtensionContext): void {
-  const extension = new SqlSchemaCopilotExtension();
+export async function activate(context: vscode.ExtensionContext): Promise<void> {
+  const config = vscode.workspace.getConfiguration('sqlSchemaCopilot');
+  const embeddingProvider = createEmbeddingProvider(config);
+  const llmProvider = await createLlmProvider(config, context.secrets);
+
+  const engine = new RealSchemaEngine({
+    embeddingProvider,
+    llmProvider,
+    cacheDir: `${context.storageUri?.fsPath ?? context.globalStorageUri.fsPath}/sql-assistant-cache`
+  });
+
+  const extension = new SqlSchemaCopilotExtension(engine);
   extension.activate(context);
   context.subscriptions.push({ dispose: () => extension.deactivate() });
 }

@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "publisher": "sqlschema",
   "engines": {
-    "vscode": "^1.90.0"
+    "vscode": "^1.95.0"
   },
   "categories": [
     "Other"
@@ -44,6 +44,15 @@
         }
       ]
     },
+    "chatParticipants": [
+      {
+        "id": "sql-schema-copilot.sqlschema",
+        "name": "sqlschema",
+        "fullName": "SQL Schema Copilot",
+        "description": "Ask questions about your local SQL schema and migrations.",
+        "isSticky": true
+      }
+    ],
     "configuration": {
       "title": "SQL Schema Copilot",
       "properties": {
@@ -54,7 +63,25 @@
             "cloud"
           ],
           "default": "local",
-          "description": "Choose the provider for schema explanations."
+          "description": "Choose the LLM provider for schema explanations: a local Ollama instance, or a cloud model using your own API key."
+        },
+        "sqlSchemaCopilot.cloudProviderKind": {
+          "type": "string",
+          "enum": [
+            "anthropic",
+            "openai"
+          ],
+          "default": "anthropic",
+          "description": "Which cloud provider to use when \"provider\" is set to \"cloud\"."
+        },
+        "sqlSchemaCopilot.embeddingProvider": {
+          "type": "string",
+          "enum": [
+            "hashing",
+            "transformers-js"
+          ],
+          "default": "hashing",
+          "description": "Embedding method for local retrieval. \"hashing\" needs no extra install. \"transformers-js\" gives richer semantic search but requires running: npm install @xenova/transformers."
         },
         "sqlSchemaCopilot.schemaFolderPath": {
           "type": "string",
@@ -75,6 +102,8 @@
     "watch": "node esbuild.js --watch",
     "pretest": "npm run compile",
     "test": "node ./out/test/runTest.js",
+    "test:unit": "mocha out/test/suite/parser.test.js out/test/suite/chunking.test.js out/test/suite/hashingEmbeddingProvider.test.js out/test/suite/vectorStore.test.js out/test/suite/migrationDiff.test.js out/test/suite/typegen.test.js out/test/suite/relationshipGraph.test.js out/test/suite/schemaEngine.test.js",
+    "mcp:start": "npm run compile && node ./out/mcp/server.js",
     "vscode:prepublish": "npm run compile"
   },
   "devDependencies": {
@@ -87,6 +116,8 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
-    "node-sql-parser": "^5.1.2"
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "node-sql-parser": "^5.1.2",
+    "zod": "^3.23.8"
   }
 }
