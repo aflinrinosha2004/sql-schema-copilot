@@ -4,6 +4,11 @@
   "description": "It explains your SQL file.",
   "version": "0.1.0",
   "publisher": "sqlschema",
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#14324D",
+    "theme": "dark"
+  },
   "engines": {
     "vscode": "^1.95.0"
   },

@@ -30,7 +30,7 @@ export function registerChatParticipant(
     }
   );
 
-  participant.iconPath = new vscode.ThemeIcon('database');
+  participant.iconPath = vscode.Uri.joinPath(context.extensionUri, 'icon.png');
   participant.followupProvider = {
     provideFollowups: () => [
       { prompt: 'What tables reference this one?', label: 'Related tables' },

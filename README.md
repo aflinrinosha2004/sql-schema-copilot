@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/aflinrinosha2004/sql-schema-copilot/main/icon.png" alt="SQL File Explainer" width="128">
+</p>
+
 <h1 align="center">SQL File Explainer</h1>
 
 <p align="center">
