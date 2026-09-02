@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 - Replaced the placeholder `icon.png` with a real 128x128 icon (a chat bubble containing a small SQL table, one column highlighted), wired into `package.json`'s `icon` and `galleryBanner` fields, the README header, and the `@schemer` chat participant's `iconPath`.
 - Fixed `tsconfig.json`: removed the dead `esbuild.js` entry from `include` (it was silently skipped without `allowJs`), set `rootDir` to `src` to match the actual source layout, and added `noEmit: true` so a plain `tsc -p .` can no longer write a mismatched `out/src/**` tree alongside esbuild's real output.
 - Added Aflin Rinosha S's contact email to the Contact Us section, using the same clickable mailto template as the other author.
+- Redesigned icon.png: a database cylinder (one band highlighted) as the primary shape, with a small robot-face badge docked at the bottom-right corner to represent the chat/bot side more literally.
 
 ## [0.1.0] - 2026-09-02
 
