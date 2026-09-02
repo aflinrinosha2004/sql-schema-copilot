@@ -4,18 +4,18 @@
     "target": "ES2022",
     "lib": ["ES2022"],
     "outDir": "out",
-    "rootDir": ".",
+    "rootDir": "src",
     "sourceMap": true,
     "strict": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "skipLibCheck": true,
+    "noEmit": true,
     "types": ["node", "mocha"]
   },
   "include": [
-    "src/**/*.ts",
-    "esbuild.js"
+    "src/**/*.ts"
   ],
   "exclude": [
     "node_modules",

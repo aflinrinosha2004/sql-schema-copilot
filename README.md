@@ -313,7 +313,7 @@ Built with these open-source projects:
 
 If you have any questions, feedback, or suggestions, feel free to reach out to the authors:
 
-* **Aflin Rinosha S**: I will let you know soon
+* **Aflin Rinosha S**: [aflinrinosha2004@gmail.com](mailto:aflinrinosha2004@gmail.com?subject=Question%20about%20SQL%20File%20Explainer&body=Dear%20Authors%2C%0A%0AI%20have%20a%20question%20regarding%20the%20SQL%20File%20Explainer%20VS%20Code%20extension%2E%0A%0A%5BYour%20Question%20Here%5D%0A%0AThank%20you%21%0A%5BYour%20Name%5D)
 * **Anand Sundaramoorthy SA**: [sanand03072005@gmail.com](mailto:sanand03072005@gmail.com?subject=Question%20about%20SQL%20File%20Explainer&body=Dear%20Authors%2C%0A%0AI%20have%20a%20question%20regarding%20the%20SQL%20File%20Explainer%20VS%20Code%20extension%2E%0A%0A%5BYour%20Question%20Here%5D%0A%0AThank%20you%21%0A%5BYour%20Name%5D)
 
 ---
