@@ -76,10 +76,10 @@ export class RealSchemaEngine implements SchemaEngine {
   }
 
   public async askQuestion(question: string): Promise<string> {
-    if (this.store.size() === 0) {
-      return 'No schema has been indexed yet. Open a workspace with a schema folder and try again.';
-    }
-
+    // Deliberately no early return when nothing is indexed: the question
+    // might not need schema at all (e.g. "who are you?"). The persona
+    // preamble in the prompt below tells the model how to handle a schema
+    // question when the context turns out to be empty.
     const questionVector = await this.embeddingProvider.embed(question);
     const results = this.store.query(questionVector, this.topK);
     const chunks = results.map((result) => result.record.chunk);

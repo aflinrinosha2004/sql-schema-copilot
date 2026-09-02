@@ -107,7 +107,7 @@
     "watch": "node esbuild.js --watch",
     "pretest": "npm run compile",
     "test": "node ./out/test/runTest.js",
-    "test:unit": "mocha out/test/suite/parser.test.js out/test/suite/chunking.test.js out/test/suite/hashingEmbeddingProvider.test.js out/test/suite/vectorStore.test.js out/test/suite/migrationDiff.test.js out/test/suite/typegen.test.js out/test/suite/relationshipGraph.test.js out/test/suite/schemaEngine.test.js",
+    "test:unit": "mocha out/test/suite/parser.test.js out/test/suite/chunking.test.js out/test/suite/hashingEmbeddingProvider.test.js out/test/suite/vectorStore.test.js out/test/suite/migrationDiff.test.js out/test/suite/typegen.test.js out/test/suite/relationshipGraph.test.js out/test/suite/schemaEngine.test.js out/test/suite/promptBuilder.test.js",
     "mcp:start": "npm run compile && node ./out/mcp/server.js",
     "vscode:prepublish": "npm run compile"
   },

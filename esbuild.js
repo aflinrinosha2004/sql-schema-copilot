@@ -16,7 +16,8 @@ const entryPoints = {
   'test/suite/migrationDiff.test': 'src/test/suite/migrationDiff.test.ts',
   'test/suite/typegen.test': 'src/test/suite/typegen.test.ts',
   'test/suite/relationshipGraph.test': 'src/test/suite/relationshipGraph.test.ts',
-  'test/suite/schemaEngine.test': 'src/test/suite/schemaEngine.test.ts'
+  'test/suite/schemaEngine.test': 'src/test/suite/schemaEngine.test.ts',
+  'test/suite/promptBuilder.test': 'src/test/suite/promptBuilder.test.ts'
 };
 
 const buildOptions = {

@@ -37,10 +37,15 @@ const schema: ParsedSchema = {
 };
 
 describe('RealSchemaEngine', () => {
-  it('answers with no context before anything is indexed', async () => {
-    const engine = new RealSchemaEngine({ embeddingProvider: new HashingEmbeddingProvider(), llmProvider: new FakeLlmProvider() });
-    const answer = await engine.askQuestion('what tables exist?');
-    assert.ok(answer.includes('No schema has been indexed yet'));
+  it('still calls the LLM before anything is indexed, so identity questions work', async () => {
+    const llm = new FakeLlmProvider();
+    const engine = new RealSchemaEngine({ embeddingProvider: new HashingEmbeddingProvider(), llmProvider: llm });
+
+    const answer = await engine.askQuestion('who are you?');
+
+    assert.ok(llm.lastPrompt.includes('no matching schema context was found'));
+    assert.ok(llm.lastPrompt.includes('HOW TO ANSWER'));
+    assert.ok(answer.includes('FAKE ANSWER'));
   });
 
   it('grounds the prompt in retrieved schema chunks and cites sources', async () => {

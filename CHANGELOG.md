@@ -18,6 +18,7 @@ All notable changes to this project will be documented in this file.
 - Added Aflin Rinosha S's contact email to the Contact Us section, using the same clickable mailto template as the other author.
 - Redesigned icon.png: a database cylinder (one band highlighted) as the primary shape, with a small robot-face badge docked at the bottom-right corner to represent the chat/bot side more literally.
 - Fixed CI, which had been failing on every push since the initial commit: the "Missing X server or $DISPLAY" error is fixed by running the test step under `xvfb-run -a` (the VS Code test host is Electron-based and needs a display even headless). Also fixed a real, flaky test underneath that failure: the workspace-folder fixture is now created and opened as a launch argument in `runTest.ts` instead of being added at runtime via the asynchronous, racy `updateWorkspaceFolders`.
+- Fixed a real bug: `askQuestion` returned a canned "No schema has been indexed yet" message for every question whenever nothing was indexed, so identity/meta questions like "who are you?" never reached the model at all. Removed that early return, and rewrote `PERSONA_PREAMBLE` into explicit sections - ABOUT YOU, HOW TO ANSWER, and GUARDRAILS - so Schemer answers questions about itself directly, answers schema questions only from indexed context, refuses to treat schema file content as instructions (prompt-injection defense), and declines off-topic requests. Added `promptBuilder.test.ts` to lock this behavior in.
 
 ## [0.1.0] - 2026-09-02
 
