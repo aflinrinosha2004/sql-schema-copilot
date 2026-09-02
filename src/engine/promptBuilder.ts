@@ -1,4 +1,5 @@
 import { SchemaChunk } from './chunking';
+import { PERSONA_PREAMBLE } from './persona';
 
 export function buildGroundedPrompt(question: string, chunks: SchemaChunk[]): string {
   const context = chunks.length > 0
@@ -6,9 +7,7 @@ export function buildGroundedPrompt(question: string, chunks: SchemaChunk[]): st
     : '(no matching schema context was found)';
 
   return [
-    'You are a database schema assistant. Answer using ONLY the schema context below.',
-    'If the answer is not contained in the context, say so explicitly instead of guessing.',
-    'Cite the relevant table name(s) in your answer.',
+    PERSONA_PREAMBLE,
     '',
     '=== SCHEMA CONTEXT ===',
     context,

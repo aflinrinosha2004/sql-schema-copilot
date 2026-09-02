@@ -7,5 +7,7 @@ node_modules/**
 src/**
 out/test/**
 **/*.md
+!README.md
+!CHANGELOG.md
 **/*.png
 !icon.png

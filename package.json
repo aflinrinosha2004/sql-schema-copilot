@@ -48,8 +48,8 @@
       {
         "id": "sql-schema-copilot.sqlschema",
         "name": "sqlschema",
-        "fullName": "SQL Schema Copilot",
-        "description": "Ask questions about your local SQL schema and migrations.",
+        "fullName": "Schema (SQL Schema Copilot)",
+        "description": "Ask Schema about your local SQL tables, columns, and migrations - grounded only in your files, never a live database.",
         "isSticky": true
       }
     ],

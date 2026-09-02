@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 - Added Phase 2 features: migration diff explanation, TypeScript interface generation, and a cross-table relationship graph.
 - Added Phase 3: a standalone MCP server exposing the same engine outside VS Code.
 - Added unit tests for every new engine module, runnable without the VS Code test host.
+- Introduced "Schema", the named persona behind the `@sqlschema` chat participant, with a shared persona preamble used in every grounded prompt, a warmer greeting, and follow-up suggestions.
+- Rewrote README.md with a full flow: About, Why This Extension, Meet Schema, Features, Installation, Usage, Commands, Settings, How It Works, MCP Server, Build From Source, Contributing, Roadmap, License, Acknowledgments, and Contact Us.
 
 ## [0.1.0] - 2026-09-02
 
