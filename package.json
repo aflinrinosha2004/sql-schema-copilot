@@ -1,0 +1,92 @@
+{
+  "name": "sql-schema-copilot",
+  "displayName": "SQL Schema Copilot",
+  "description": "Local SQL schema and migration assistant for VS Code.",
+  "version": "0.1.0",
+  "publisher": "sqlschema",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onCommand:sql-schema-copilot.explainSchemaFile",
+    "onLanguage:sql",
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "sql-schema-copilot.explainSchemaFile",
+        "title": "Explain this schema file",
+        "category": "SQL Schema Copilot"
+      },
+      {
+        "command": "sql-schema-copilot.setCloudApiKey",
+        "title": "Set Cloud API Key",
+        "category": "SQL Schema Copilot"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "sql-schema-copilot.explainSchemaFile",
+          "when": "resourceExtname == .sql"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "sql-schema-copilot.explainSchemaFile",
+          "when": "resourceExtname == .sql",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "SQL Schema Copilot",
+      "properties": {
+        "sqlSchemaCopilot.provider": {
+          "type": "string",
+          "enum": [
+            "local",
+            "cloud"
+          ],
+          "default": "local",
+          "description": "Choose the provider for schema explanations."
+        },
+        "sqlSchemaCopilot.schemaFolderPath": {
+          "type": "string",
+          "default": "schema",
+          "description": "Relative path to the folder containing schema files (for example: schema or schema/migration)."
+        },
+        "sqlSchemaCopilot.cloudApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Stored securely in SecretStorage. Do not edit this value in settings.json.",
+          "scope": "machine-overridable"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "node esbuild.js --production",
+    "watch": "node esbuild.js --watch",
+    "pretest": "npm run compile",
+    "test": "node ./out/test/runTest.js",
+    "vscode:prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^20.14.10",
+    "@types/vscode": "^1.90.0",
+    "@vscode/test-electron": "^2.4.1",
+    "esbuild": "^0.23.0",
+    "mocha": "^10.0.0",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "node-sql-parser": "^5.1.2"
+  }
+}

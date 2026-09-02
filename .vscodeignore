@@ -1,0 +1,11 @@
+**/*.ts
+**/*.map
+.git/**
+.github/**
+.vscode/**
+node_modules/**
+src/**
+out/test/**
+**/*.md
+**/*.png
+!icon.png
