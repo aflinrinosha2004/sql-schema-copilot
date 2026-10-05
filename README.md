@@ -49,6 +49,7 @@ credentials, and no schema data leaves your machine unless you explicitly turn o
 - [Roadmap](#roadmap)
 - [License](#license)
 - [Acknowledgments](#acknowledgments)
+- [Authors](#authors)
 - [Contact Us](#contact-us)
 
 ---
@@ -309,6 +310,15 @@ Built with these open-source projects:
 
 ---
 
+## Authors
+
+SQL File Explainer is designed and built by two co-authors:
+
+- **Aflin Rinosha S** ([@aflinrinosha2004](https://github.com/aflinrinosha2004)) - author
+- **Anand Sundaramoorthy SA** - co-author
+
+---
+
 ## Contact Us
 
 If you have any questions, feedback, or suggestions, feel free to reach out to the authors:
@@ -321,4 +331,8 @@ If you have any questions, feedback, or suggestions, feel free to reach out to t
 <p align="center">
   <a href="https://github.com/aflinrinosha2004/sql-schema-copilot">GitHub</a> ·
   <a href="https://github.com/aflinrinosha2004/sql-schema-copilot/issues">Issues</a>
+</p>
+
+<p align="center">
+  <sub>Made by Aflin Rinosha S and Anand Sundaramoorthy SA &middot; MIT License</sub>
 </p>

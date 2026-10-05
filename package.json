@@ -3,7 +3,21 @@
   "displayName": "SQL File Explainer",
   "description": "It explains your SQL file.",
   "version": "0.1.0",
-  "publisher": "sqlschema",
+  "publisher": "sql-file-explainer",
+  "author": {
+    "name": "Aflin Rinosha S",
+    "email": "aflinrinosha2004@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Aflin Rinosha S",
+      "email": "aflinrinosha2004@gmail.com"
+    },
+    {
+      "name": "Anand Sundaramoorthy SA",
+      "email": "sanand03072005@gmail.com"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/aflinrinosha2004/sql-schema-copilot.git"
