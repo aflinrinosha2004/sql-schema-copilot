@@ -23,7 +23,7 @@ All notable changes to this project will be documented in this file.
 - Updated `LICENSE` copyright to both authors by name (Aflin Rinosha S & Anand Sundaramoorthy SA).
 - Removed the now-deprecated explicit `"moduleResolution": "node10"` from `tsconfig.json` - `module: "commonjs"` already implies the same resolution by default, so omitting it avoids the deprecation warning with no behavior change.
 
-- Set the publisher ID to `sql-file-explainer` to match the Marketplace publisher, and credited both authors (Aflin Rinosha S, author; Anand Sundaramoorthy SA, co-author) in `package.json` (`author`, `contributors`) and the README (Authors section and footer).
+- Set the publisher ID to `AnandSundaramoorthySa` to match the Marketplace publisher, and credited both authors (Aflin Rinosha S, author; Anand Sundaramoorthy SA, co-author) in `package.json` (`author`, `contributors`) and the README (Authors section and footer).
 
 ## [0.1.0] - 2026-09-02
 
